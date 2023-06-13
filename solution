@@ -1,0 +1,13 @@
+import java.util.Scanner;
+class solution
+{
+    public static String[] array(String[] ar ) {
+        int len = ar.length;
+        String st = "";
+        for(int i =0;i<len;i++)
+        {
+         for(int)
+        }
+        
+    }
+}
