@@ -6,7 +6,7 @@ int noneRepeat(std::string S) {
         char ch = S[i];
         int flag = 0;
 
-        for (int j = 0; j < S.length(); j++) {
+        for (int j = 0; j < S.length(); j++){
             if (ch == S[j] && j != i) {
                 flag = 0;
                 break;
