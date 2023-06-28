@@ -1,267 +1,188 @@
-"""
-max = int(input("Enter the maximum temperature "))
-min = int(input("Enter the minimum temperature "))
-user= int (input("Enter the temperature "))
-if(max>=min):
-    if(user>=max):
-        print("Heat Stroke warning")
-    elif(user<=min):
-        print("Freezing")
-    else:
-        print("No Warning")
-else:
-    print("Error")"""
+# Program in Python to create a Snake Game
 
-""""
-number = int(input("Enter the number"))
-if(number%2==0):
-    print("Even")
-else:
-    print("Odd")
-"""
-"""
-Marks = int (input("Enter the Marks "))
-if(Marks>80):
-    print("A")
-elif(Marks>70 and Marks<80):
-    print("B")
-elif(Marks>60 and Marks<70):
-    print("C")
-else:
-    print("SLOW LEARNER")
-"""
-
-"""wap to grant log of the cu whoe salary is greter than 40000 and cs is >700
-dear  NAME 
-your Salary is 
-and cs is -----.
-loan has not been granted
-your loan application has been declined"""
-
-"""name = input("Enter your name --> ")
-salary = int (input("Enter the Salary -->"))
-cs = int(input("Enter the credit score -->"))
-print ("Dear {}  Your Salary".format(name))
-print("Your salary is {}".format(salary))
-if(salary>40000 and cs>700):
-    print('''Loan has been granted
-Your loan application has been accepted''')
-else:
-    print('''Loan has not been granted
- Your loan application has not  been accepted''')"""
-
-"""for i in range(1,11):
-    print("{} X {} = {}".format(3,i,3*i))"""
-
-"""for character in "python":
-    print("Hello")
-    print("Bye")"""
-
-"""for character in "python":
-    print(character)"""
-""""
-for i in range(1,4):
-    print ("Enter the password")
-    print ("You have only 3 attempts and this is your {} attempts ".format(i))
-    s = input()
-    if(s=="Hello"):
-        print("Congratulations ")
-        break
-print("Attempts Over")"""
-
-"""r=["python","java","c++"]
-for i in r:
-    print(r)
-    if(i=="java"):
-        continue"""
-
-"""for x in range (6):
-    if(x==3):
-        break
-        print (x)       
-    else:
-        print("Finally Finished")"""
-
-"""adj = ["red", "big","tasty"]
-fruits =["apple","banana","cherry"]
-for x in adj:
-    for y in fruits:
-        print(x,y)"""
 from tkinter import *
-from random import randint
-from PIL import Image, ImageTk
+import random
+
+# Initialising Dimensions of Game
+WIDTH = 500
+HEIGHT = 500
+SPEED = 200
+SPACE_SIZE = 20
+BODY_SIZE = 2
+SNAKE = "#51BBB1"
+FOOD = "#71CB40"
+BACKGROUND = "#A6A57A"
+
+# Class to design the snake
+class Snake:
+
+	def __init__(self):
+		self.body_size = BODY_SIZE
+		self.coordinates = []
+		self.squares = []
+
+		for i in range(0, BODY_SIZE):
+			self.coordinates.append([0, 0])
+
+		for x, y in self.coordinates:
+			square = canvas.create_rectangle(
+				x, y, x + SPACE_SIZE, y + SPACE_SIZE,
+					fill=SNAKE, tag="snake")
+			self.squares.append(square)
+
+# Class to design the food
+class Food:
+
+	def __init__(self):
+
+		x = random.randint(0,
+				(WIDTH / SPACE_SIZE)-1) * SPACE_SIZE
+		y = random.randint(0,
+				(HEIGHT / SPACE_SIZE) - 1) * SPACE_SIZE
+
+		self.coordinates = [x, y]
+
+		canvas.create_oval(x, y, x + SPACE_SIZE, y +
+						SPACE_SIZE, fill=FOOD, tag="food")
+
+# Function to check the next move of snake
+def next_turn(snake, food):
+
+	x, y = snake.coordinates[0]
+
+	if direction == "up":
+		y -= SPACE_SIZE
+	elif direction == "down":
+		y += SPACE_SIZE
+	elif direction == "left":
+		x -= SPACE_SIZE
+	elif direction == "right":
+		x += SPACE_SIZE
+
+	snake.coordinates.insert(0, (x, y))
+
+	square = canvas.create_rectangle(
+		x, y, x + SPACE_SIZE,
+				y + SPACE_SIZE, fill=SNAKE)
+
+	snake.squares.insert(0, square)
+
+	if x == food.coordinates[0] and y == food.coordinates[1]:
+
+		global score
+
+		score += 1
+
+		label.config(text="Points:{}".format(score))
+
+		canvas.delete("food")
+
+		food = Food()
+
+	else:
+
+		del snake.coordinates[-1]
+
+		canvas.delete(snake.squares[-1])
+
+		del snake.squares[-1]
+
+	if check_collisions(snake):
+		game_over()
+
+	else:
+		window.after(SPEED, next_turn, snake, food)
+
+# Function to control direction of snake
+def change_direction(new_direction):
+
+	global direction
+
+	if new_direction == 'left':
+		if direction != 'right':
+			direction = new_direction
+	elif new_direction == 'right':
+		if direction != 'left':
+			direction = new_direction
+	elif new_direction == 'up':
+		if direction != 'down':
+			direction = new_direction
+	elif new_direction == 'down':
+		if direction != 'up':
+			direction = new_direction
+
+# function to check snake's collision and position
+def check_collisions(snake):
+
+	x, y = snake.coordinates[0]
+
+	if x < 0 or x >= WIDTH:
+		return True
+	elif y < 0 or y >= HEIGHT:
+		return True
+
+	for body_part in snake.coordinates[1:]:
+		if x == body_part[0] and y == body_part[1]:
+			return True
+
+	return False
+
+# Function to control everything
+def game_over():
+
+	canvas.delete(ALL)
+	canvas.create_text(canvas.winfo_width()/2,
+					canvas.winfo_height()/2,
+					font=('consolas', 70),
+					text="GAME OVER", fill="red",
+					tag="gameover")
+
+# Giving title to the gaming window
 
 
-movement = 20
-steps_per_sec = 10
-speed = 1100 // steps_per_sec
+window = Tk()
+window.title("Snake game ")
 
 
-class Snake(Canvas):
-    def __init__(self):
-        super().__init__(
-            width=700, 
-            height=700, 
-            background='#53ff1a', 
-            highlightthickness=0
-        )
+score = 0
+direction = 'down'
 
-        self.snake_pos = [(100, 80), (80, 100), (80, 100)]
-        self.food_pos = self.set_new_food_pos()
-        self.direction = 'Right'
+# Display of Points Scored in Game
 
-        self.score = 0
+label = Label(window, text="Points:{}".format(score),
+			font=('consolas', 20))
+label.pack()
 
-        self.load_img()
-        self.create_objects()
+canvas = Canvas(window, bg=BACKGROUND,
+				height=HEIGHT, width=WIDTH)
+canvas.pack()
 
-        self.bind_all('<Key>', self.on_key_press)
+window.update()
 
-        self.pack()
+window_width = window.winfo_width()
+window_height = window.winfo_height()
+screen_width = window.winfo_screenwidth()
+screen_height = window.winfo_screenheight()
 
-        self.after(speed, self.perform_actions)
+x = int((screen_width/2) - (window_width/2))
+y = int((screen_height/2) - (window_height/2))
 
-    def load_img(self):
-        try:
-            self.snake_body = ImageTk.PhotoImage(Image.open('game.png'))
-            self.food = ImageTk.PhotoImage(Image.open('game.png'))
-        except IOError as error:
-            ws.destroy()
-            raise
+window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-    def create_objects(self):
-        self.create_text(
-            35, 
-            12, 
-            text=f'Score: {self.score}', 
-            tag='score', 
-            fill='black', 
-            font=10
-        )
+window.bind('<Left>',
+			lambda event: change_direction('left'))
+window.bind('<Right>',
+			lambda event: change_direction('right'))
+window.bind('<Up>',
+			lambda event: change_direction('up'))
+window.bind('<Down>',
+			lambda event: change_direction('down'))
 
-        for x_position, y_position in self.snake_pos:
-            self.create_image(
-                x_position, 
-                y_position, 
-                image=self.snake_body, 
-                tag='snake'
-            )
+snake = Snake()
+food = Food()
 
-        self.create_image(
-            *self.food_pos, 
-            image=self.food, 
-            tag='food'
-            )
-        self.create_rectangle(
-            7, 
-            27, 
-            690, 
-            690, 
-            outline='#d9d8d7'
-            )
+next_turn(snake, food)
 
-    def finish_game(self):
-        self.delete(ALL)
-        self.create_text(
-            self.winfo_width() / 2,
-            self.winfo_height() / 2,
-            text=f'Game over! You have scored {self.score}!',
-            fill='black',
-            font=20
-        )
+window.mainloop()
 
-    def consume_food(self):
-        if self.snake_pos[0] == self.food_pos:
-            self.score += 10
-            self.snake_pos.append(self.snake_pos[-1])
-
-            self.create_image(
-                *self.snake_pos[-1], 
-                image=self.snake_body, 
-                tag='snake'
-            )
-            self.food_pos = self.set_new_food_pos()
-            self.coords(
-                self.find_withtag('food'), 
-                *self.food_pos
-                )
-
-            score = self.find_withtag('score')
-            self.itemconfigure(
-                score, 
-                text=f'Score: {self.score}', 
-                tag='score'
-                )
-    
-    def boundry(self):
-        head_x_position, head_y_position = self.snake_pos[0]
-
-        return (
-            head_x_position in (0, 700)
-            or head_y_position in (20, 700)
-            or (head_x_position, head_y_position) in self.snake_pos[1:]
-        )
-
-    def snake_movement(self):
-        head_x_position, head_y_position = self.snake_pos[0]
-
-        if self.direction == 'Left':
-            new_head_position = (head_x_position - movement, head_y_position)
-        elif self.direction == 'Right':
-            new_head_position = (head_x_position + movement, head_y_position)
-        elif self.direction == 'Down':
-            new_head_position = (head_x_position, head_y_position + movement)
-        elif self.direction == 'Up':
-            new_head_position = (head_x_position, head_y_position - movement)
-
-        self.snake_pos = [new_head_position] + self.snake_pos[:-1]
-
-        for segment, position in zip(self.find_withtag('snake'), self.snake_pos):
-            self.coords(segment, position)
-
-    def on_key_press(self, e):
-        new_direction = e.keysym
-
-        all_directions = (
-            'Up', 
-            'Down', 
-            'Left', 
-            'Right'
-            )
-        opposites = (
-            {'Up', 'Down'}, 
-            {'Left', 'Right'}
-            )
-
-        if (
-            new_direction in all_directions
-            and {new_direction, self.direction} not in opposites
-        ):
-            self.direction = new_direction
-
-    def perform_actions(self):
-        if self.boundry():
-            self.finish_game()
-
-        self.consume_food()
-        self.snake_movement()
-
-        self.after(speed, self.perform_actions)
-
-    def set_new_food_pos(self):
-        while True:
-            x_position = randint(1, 29) * movement
-            y_position = randint(3, 30) * movement
-            food_pos = (x_position, y_position)
-
-            if food_pos not in self.snake_pos:
-                return food_pos
-
-
-ws = Tk()
-ws.title('PythonGuides - Snake Game')
-ws.resizable(False, False)
-
-board = Snake()
-
-ws.mainloop()
+# This code is contributed by genius_general

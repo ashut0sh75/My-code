@@ -14,7 +14,7 @@ try:
     response = requests.get(url)
     data = response.json()
 
-   # print(data)
+#print(data)
 
     # Extract relevant information from the response
     temperature = data['main']['temp']
@@ -22,7 +22,7 @@ try:
     description = data['weather'][0]['description']
     wind_speed = data['wind']['speed']
     visibility = data['visibility']
-
+    
     # Display the weather information to the user
     print(f"Weather information for {city}:")
     print(f"Temperature: {temperature} K")
