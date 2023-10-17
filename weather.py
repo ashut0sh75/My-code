@@ -14,22 +14,24 @@ try:
     response = requests.get(url)
     data = response.json()
 
-#print(data)
+    # Check if the response status code indicates success (200)
+    if response.status_code == 200:
+        # Extract relevant information from the response
+        temperature = data['main']['temp']
+        humidity = data['main']['humidity']
+        description = data['weather'][0]['description']
+        wind_speed = data['wind']['speed']
+        visibility = data['visibility']
 
-    # Extract relevant information from the response
-    temperature = data['main']['temp']
-    humidity = data['main']['humidity']
-    description = data['weather'][0]['description']
-    wind_speed = data['wind']['speed']
-    visibility = data['visibility']
-    
-    # Display the weather information to the user
-    print(f"Weather information for {city}:")
-    print(f"Temperature: {temperature} K")
-    print(f"Humidity: {humidity}%")
-    print(f"Description: {description}")
-    print(f"Wind Speed: {wind_speed} m/s")
-    print(f"Visibility: {visibility} meters")
-    
+        # Display the weather information to the user
+        print(f"Weather information for {city}:")
+        print(f"Temperature: {temperature} K")
+        print(f"Humidity: {humidity}%")
+        print(f"Description: {description}")
+        print(f"Wind Speed: {wind_speed} m/s")
+        print(f"Visibility: {visibility} meters")
+    else:
+        print(f"City not found. Please check the city name or try a different one.")
+
 except requests.exceptions.RequestException as e:
     print("An error occurred while fetching the weather data.")
