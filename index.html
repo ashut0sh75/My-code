@@ -1,13 +1,105 @@
-<html>
-    <head>
-        <script>
-            function msg() 
-            {
-                prompt("Welcome in java script");
-            }
-            </script>
-            </head>
-            <form>
-                <input type="butoon" value="Click" onclick="msg()"/>
-                </form>
-                </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel More</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .txt {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+        }
+
+        .pra {
+            text-align: center;
+            margin: 20px 10%;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        /* New styles for the photo grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            text-align: center;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Styles for the contact info section */
+        .contact-info {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="txt">
+        <h1>TRAVEL MORE</h1>
+    </div>
+    <section>
+        <p class="pra">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor quo reiciendis eveniet, maiores pariatur dolorem amet similique quas autem quis, dolore provident optio ea vel incidunt. Quasi, dignissimos? Non voluptates blanditiis aliquid accusamus dignissimos explicabo iste aspernatur, corporis saepe cum provident eos, omnis incidunt quidem hic, illum laborum. Laborum, molestiae?</p>
+    </section>
+
+    <main>
+        <div class="photo-grid">
+            <img src="th.jpeg" alt="Photo 1">
+            <img src="th(3).jpeg" alt="Photo 2">
+            <img src="th (2).jpeg" alt="Photo 3">
+            <img src="th (3).jpeg" alt="Photo 1">
+              <img src="th.jpeg" alt="Photo 1">
+            <img src="th(1).jpeg" alt="Photo 2">
+            <img src="th (2).jpeg" alt="Photo 3">
+            <img src="th (3).jpeg" alt="Photo 1">
+            <img src="th (3).jpeg" alt="Photo 1">
+            <!-- Add more images as needed -->
+        </div>
+    </main>
+
+    <section class="contact-info">
+        <h2>Contact Information</h2>
+        <p>Email: example@example.com</p>
+        <p>Phone: +123-456-7890</p>
+        <!-- Add more contact information as needed -->
+    </section>
+</body>
+</html>

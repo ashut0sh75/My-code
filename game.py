@@ -1,4 +1,4 @@
-# Program in Python to create a Snake Game
+# Program in Python to create a ke Game
 
 from tkinter import *
 import random
@@ -10,13 +10,13 @@ HEIGHT = 500
 SPEED = 200
 SPACE_SIZE = 20
 BODY_SIZE = 2
-SNAKE = "#00FF00"
+KE = "#00FF00"
 FOOD = "#FFFFFF"
 BACKGROUND = "#000000"
 
-# Class to design the sna
+# Class to design the 
 
-class Snake:
+class ke:
 
     def __init__(self):
         self.body_size = BODY_SIZE
@@ -28,7 +28,7 @@ class Snake:
 
         for x, y in self.coordinates:
             square = canvas.create_rectangle(
-                x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE, tag="snake")
+                x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=KE, tag="ke")
             self.squares.append(square)
 
 # Class to design the food
@@ -46,12 +46,12 @@ class Food:
         canvas.create_oval(x, y, x + SPACE_SIZE, y +
                            SPACE_SIZE, fill=FOOD, tag="food")
 
-# Function to check the next move of snake
+# Function to check the next move of ke
 
 
-def next_turn(snake, food):
+def next_turn(ke, food):
 
-    x, y = snake.coordinates[0]
+    x, y = ke.coordinates[0]
 
     if direction == "up":
         y -= SPACE_SIZE
@@ -62,12 +62,12 @@ def next_turn(snake, food):
     elif direction == "right":
         x += SPACE_SIZE
 
-    snake.coordinates.insert(0, (x, y))
+    ke.coordinates.insert(0, (x, y))
 
     square = canvas.create_rectangle(
-        x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE)
+        x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=KE)
 
-    snake.squares.insert(0, square)
+    ke.squares.insert(0, square)
 
     if x == food.coordinates[0] and y == food.coordinates[1]:
 
@@ -83,19 +83,19 @@ def next_turn(snake, food):
 
     else:
 
-        del snake.coordinates[-1]
+        del ke.coordinates[-1]
 
-        canvas.delete(snake.squares[-1])
+        canvas.delete(ke.squares[-1])
 
-        del snake.squares[-1]
+        del ke.squares[-1]
 
-    if check_collisions(snake):
+    if check_collisions(ke):
         game_over()
 
     else:
-        window.after(SPEED, next_turn, snake, food)
+        window.after(SPEED, next_turn, ke, food)
 
-# Function to control direction of snake
+# Function to control direction of ke
 
 
 def change_direction(new_direction):
@@ -115,19 +115,19 @@ def change_direction(new_direction):
         if direction != 'up':
             direction = new_direction
 
-# function to check snake's collision and position
+# function to check ke's collision and position
 
 
-def check_collisions(snake):
+def check_collisions(ke):
 
-    x, y = snake.coordinates[0]
+    x, y = ke.coordinates[0]
 
     if x < 0 or x >= WIDTH:
         return True
     elif y < 0 or y >= HEIGHT:
         return True
 
-    for body_part in snake.coordinates[1:]:
+    for body_part in ke.coordinates[1:]:
         if x == body_part[0] and y == body_part[1]:
             return True
 
@@ -146,7 +146,7 @@ def game_over():
 
 
 window = Tk()
-window.title("GFG Snake game ")
+window.title("GFG ke game ")
 
 
 score = 0
@@ -177,10 +177,10 @@ window.bind('<Right>', lambda event: change_direction('right'))
 window.bind('<Up>', lambda event: change_direction('up'))
 window.bind('<Down>', lambda event: change_direction('down'))
 
-snake = Snake()
+ke = ke()
 food = Food()
 
-next_turn(snake, food)
+next_turn(ke, food)
 
 window.mainloop()
 
